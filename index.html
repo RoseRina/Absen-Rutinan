@@ -1,41 +1,51 @@
-<form id="absenForm">
-    <label>Nama:</label><br>
-    <input type="text" id="name" required><br>
-    <label>Nomor WhatsApp:</label><br>
-    <input type="text" id="whatsapp" required><br>
-    <label>Nama Grup:</label><br>
-    <input type="text" id="group" required><br>
-    <label>Kritik & Saran:</label><br>
-    <textarea id="feedback" required></textarea><br>
-    <button type="submit">Kirim</button>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulir Absensi</title>
+</head>
+<body>
+    <form id="absenForm">
+        <label>Nama:</label><br>
+        <input type="text" id="name" required><br>
+        <label>Nomor WhatsApp:</label><br>
+        <input type="text" id="whatsapp" required><br>
+        <label>Nama Grup:</label><br>
+        <input type="text" id="group" required><br>
+        <label>Kritik & Saran:</label><br>
+        <textarea id="feedback" required></textarea><br>
+        <button type="submit">Kirim</button>
+    </form>
 
-<script>
-    const apiUrl = "URL_API_YANG_DIPEROLEH";
+    <script>
+        const apiUrl = "https://script.google.com/macros/s/AKfycbzhIzl-vfYHQgLrQ4kK8SmK3ZrSm1mtiFe9q-LWLajqMYXsh7gooFD4sDFY_FnWXPk3/exec"; // Ganti dengan URL API Anda
 
-    document.getElementById('absenForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const data = {
-            name: document.getElementById('name').value,
-            whatsapp: document.getElementById('whatsapp').value,
-            group: document.getElementById('group').value,
-            feedback: document.getElementById('feedback').value,
-        };
-        
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            });
-            if (response.ok) {
-                alert('Absensi berhasil!');
-            } else {
-                alert('Gagal mengirim absensi!');
+        document.getElementById('absenForm').addEventListener('submit', async function (e) {
+            e.preventDefault(); // Mencegah pengiriman default formulir
+            const data = {
+                name: document.getElementById('name').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                group: document.getElementById('group').value,
+                feedback: document.getElementById('feedback').value,
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    alert('Absensi berhasil dikirim!');
+                    document.getElementById('absenForm').reset(); // Reset formulir
+                } else {
+                    alert('Gagal mengirim absensi. Silakan coba lagi.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan. Silakan coba lagi.');
             }
-        } catch (error) {
-            console.error(error);
-            alert('Terjadi kesalahan!');
-        }
-    });
-</script>
+        });
+    </script>
+</body>
+</html>
